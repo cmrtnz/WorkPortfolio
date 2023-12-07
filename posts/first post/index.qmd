@@ -1,23 +1,58 @@
 ---
-title: "Post Estimation Diagnostics"
+title: "Exploratory Data Analysis in R"
 author: "Cedric Martinez"
 date: "2023-12-07"
-categories: [R, regression, analysis]
+categories: [R, Exploratory Data Analysis, Linear Modeling]
 image: "image.jpg"
 ---
 
-Hi, we will run a regression
+Hello! Today I will be performing Exploratory Data Analysis (EDA) on a sample dataset "Boston" to find the characteristics of this dataset containing housing information for housing located in the Boston area. After performing EDA, I will create a simple linear model and make a prediction on a sample record of the median house value of an area.
 
 ```{r, echo=TRUE}
 
 library(ISLR2)
 
-mydata <- ISLR2::Credit
-
-model <- lm(Rating~., data = mydata)
-summary(model)
+mydata <- ISLR2::Boston
+head(mydata)
 ```
 
-```{r}
+```{r, echo=TRUE}
+summary(mydata)
+```
 
+Let's take a look at the distribution of our response variable, medv (median house values)
+
+```{r, echo=TRUE}
+library(ggplot2)
+ggplot(data=mydata, aes(x=medv))+
+  geom_histogram(fill="blue") +
+  ggtitle("Distribution of median house values")
+```
+
+Note that this is a unimodal distribution, with most home values hovering around 20.
+
+Now let's look at one of the possible predictors of median house values, crime rate, and how that relates to the median house values in a scatterplot
+
+```{r, echo=TRUE}
+ggplot(data=mydata, aes(x=crim, y=medv))+
+  geom_point()
+
+```
+
+For this specific case, there appears to possibly be an inverse relationship between house value and crime, but it is hard to tell since so many of the houses have a crime value of 0 or near to 0. Interestingly, it appears that there are no instances of high median house value (\>30) that have any crime value over 10.
+
+To identify some other potential variables, let's run a full correlation on the dataset with median house value. From there, we can pick out the top 5 or so features by absolute value correlation score to include in our linear prediction model.
+
+```{r, echo=TRUE}
+correlation <- cor(mydata)
+medv_correlation <- correlation[,ncol(correlation)]
+medv_correlation <- sort(abs(medv_correlation), decreasing = TRUE)
+medv_correlation
+```
+
+The top 5 values are lstat, rm, ptratio, indus, and tax. Let's now make a linear model predicting medv with these 5 values and see the summary of the model.
+
+```{r, echo=TRUE}
+model <- lm(medv~lstat + rm + ptratio + indus + tax, data = mydata)
+summary(model)
 ```
