@@ -1,6 +1,7 @@
 ---
 title: "Resume"
-image: profile.jpg
 about:
   template: jolla
+---
+<iframe src="resume.pdf" width="1500" height="1000"></iframe>
 ---
