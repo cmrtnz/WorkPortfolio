@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Welcome to my blog!"
+  title: "Cedric Martinez"
   navbar:
     right:
       - about.qmd

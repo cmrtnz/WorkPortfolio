@@ -1,0 +1,6 @@
+---
+title: "Resume"
+image: resume.pdf
+about:
+  template: jolla
+---
