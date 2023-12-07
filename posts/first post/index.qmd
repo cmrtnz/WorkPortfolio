@@ -1,0 +1,23 @@
+---
+title: "Post Estimation Diagnostics"
+author: "Cedric Martinez"
+date: "2023-12-07"
+categories: [R, regression, analysis]
+image: "image.jpg"
+---
+
+Hi, we will run a regression
+
+```{r, echo=TRUE}
+
+library(ISLR2)
+
+mydata <- ISLR2::Credit
+
+model <- lm(Rating~., data = mydata)
+summary(model)
+```
+
+```{r}
+
+```
