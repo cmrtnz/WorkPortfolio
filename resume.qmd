@@ -1,6 +1,6 @@
 ---
 title: "Resume"
-image: resume.pdf
+pdf: resume.pdf
 about:
   template: jolla
 ---

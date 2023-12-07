@@ -1,5 +1,5 @@
 ---
-title: "Work Portfolio: Cedric Martinez"
+title: "Work Portfolio"
 listing:
   contents: posts
   sort: "date desc"
