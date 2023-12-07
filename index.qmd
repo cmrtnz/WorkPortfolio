@@ -1,5 +1,5 @@
 ---
-title: "ADTA Student"
+title: "Work Portfolio: Cedric Martinez"
 listing:
   contents: posts
   sort: "date desc"

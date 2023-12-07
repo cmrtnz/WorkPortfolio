@@ -9,7 +9,7 @@
 <meta name="author" content="Cedric Martinez">
 <meta name="dcterms.date" content="2023-12-07">
 
-<title>Welcome to my blog! - Post Estimation Diagnostics</title>
+<title>Welcome to my blog! - Exploratory Data Analysis in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -119,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/cmrtnz" rel="" target=""><i class="bi bi-github" role="img">
@@ -142,11 +142,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Post Estimation Diagnostics</h1>
+      <h1 class="title">Exploratory Data Analysis in R</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">R</div>
-                <div class="quarto-category">regression</div>
-                <div class="quarto-category">analysis</div>
+                <div class="quarto-category">Exploratory Data Analysis</div>
+                <div class="quarto-category">Linear Modeling</div>
               </div>
                   </div>
   </div>
@@ -182,45 +182,120 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>Hi, we will run a regression</p>
+<p>Hello! Today I will be performing Exploratory Data Analysis (EDA) on a sample dataset “Boston” to find the characteristics of this dataset containing housing information for housing located in the Boston area. After performing EDA, I will create a simple linear model and make a prediction on a sample record of the median house value of an area.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'ISLR2' was built under R version 4.3.2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> ISLR2<span class="sc">::</span>Credit</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Rating<span class="sc">~</span>., <span class="at">data =</span> mydata)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> ISLR2<span class="sc">::</span>Boston</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mydata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     crim zn indus chas   nox    rm  age    dis rad tax ptratio lstat medv
+1 0.00632 18  2.31    0 0.538 6.575 65.2 4.0900   1 296    15.3  4.98 24.0
+2 0.02731  0  7.07    0 0.469 6.421 78.9 4.9671   2 242    17.8  9.14 21.6
+3 0.02729  0  7.07    0 0.469 7.185 61.1 4.9671   2 242    17.8  4.03 34.7
+4 0.03237  0  2.18    0 0.458 6.998 45.8 6.0622   3 222    18.7  2.94 33.4
+5 0.06905  0  2.18    0 0.458 7.147 54.2 6.0622   3 222    18.7  5.33 36.2
+6 0.02985  0  2.18    0 0.458 6.430 58.7 6.0622   3 222    18.7  5.21 28.7</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mydata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      crim                zn             indus            chas        
+ Min.   : 0.00632   Min.   :  0.00   Min.   : 0.46   Min.   :0.00000  
+ 1st Qu.: 0.08205   1st Qu.:  0.00   1st Qu.: 5.19   1st Qu.:0.00000  
+ Median : 0.25651   Median :  0.00   Median : 9.69   Median :0.00000  
+ Mean   : 3.61352   Mean   : 11.36   Mean   :11.14   Mean   :0.06917  
+ 3rd Qu.: 3.67708   3rd Qu.: 12.50   3rd Qu.:18.10   3rd Qu.:0.00000  
+ Max.   :88.97620   Max.   :100.00   Max.   :27.74   Max.   :1.00000  
+      nox               rm             age              dis        
+ Min.   :0.3850   Min.   :3.561   Min.   :  2.90   Min.   : 1.130  
+ 1st Qu.:0.4490   1st Qu.:5.886   1st Qu.: 45.02   1st Qu.: 2.100  
+ Median :0.5380   Median :6.208   Median : 77.50   Median : 3.207  
+ Mean   :0.5547   Mean   :6.285   Mean   : 68.57   Mean   : 3.795  
+ 3rd Qu.:0.6240   3rd Qu.:6.623   3rd Qu.: 94.08   3rd Qu.: 5.188  
+ Max.   :0.8710   Max.   :8.780   Max.   :100.00   Max.   :12.127  
+      rad              tax           ptratio          lstat      
+ Min.   : 1.000   Min.   :187.0   Min.   :12.60   Min.   : 1.73  
+ 1st Qu.: 4.000   1st Qu.:279.0   1st Qu.:17.40   1st Qu.: 6.95  
+ Median : 5.000   Median :330.0   Median :19.05   Median :11.36  
+ Mean   : 9.549   Mean   :408.2   Mean   :18.46   Mean   :12.65  
+ 3rd Qu.:24.000   3rd Qu.:666.0   3rd Qu.:20.20   3rd Qu.:16.95  
+ Max.   :24.000   Max.   :711.0   Max.   :22.00   Max.   :37.97  
+      medv      
+ Min.   : 5.00  
+ 1st Qu.:17.02  
+ Median :21.20  
+ Mean   :22.53  
+ 3rd Qu.:25.00  
+ Max.   :50.00  </code></pre>
+</div>
+</div>
+<p>Let’s take a look at the distribution of our response variable, medv (median house values)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mydata, <span class="fu">aes</span>(<span class="at">x=</span>medv))<span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill=</span><span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Distribution of median house values"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Note that this is a unimodal distribution, with most home values hovering around 20.</p>
+<p>Now let’s look at one of the possible predictors of median house values, crime rate, and how that relates to the median house values in a scatterplot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mydata, <span class="fu">aes</span>(<span class="at">x=</span>crim, <span class="at">y=</span>medv))<span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>For this specific case, there appears to possibly be an inverse relationship between house value and crime, but it is hard to tell since so many of the houses have a crime value of 0 or near to 0. Interestingly, it appears that there are no instances of high median house value (&gt;30) that have any crime value over 10.</p>
+<p>To identify some other potential variables, let’s run a full correlation on the dataset with median house value. From there, we can pick out the top 5 or so features by absolute value correlation score to include in our linear prediction model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>correlation <span class="ot">&lt;-</span> <span class="fu">cor</span>(mydata)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>medv_correlation <span class="ot">&lt;-</span> correlation[,<span class="fu">ncol</span>(correlation)]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>medv_correlation <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">abs</span>(medv_correlation), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>medv_correlation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     medv     lstat        rm   ptratio     indus       tax       nox      crim 
+1.0000000 0.7376627 0.6953599 0.5077867 0.4837252 0.4685359 0.4273208 0.3883046 
+      rad       age        zn       dis      chas 
+0.3816262 0.3769546 0.3604453 0.2499287 0.1752602 </code></pre>
+</div>
+</div>
+<p>The top 5 values are lstat, rm, ptratio, indus, and tax. Let’s now make a linear model predicting medv with these 5 values and see the summary of the model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(medv<span class="sc">~</span>lstat <span class="sc">+</span> rm <span class="sc">+</span> ptratio <span class="sc">+</span> indus <span class="sc">+</span> tax, <span class="at">data =</span> mydata)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = Rating ~ ., data = mydata)
+lm(formula = medv ~ lstat + rm + ptratio + indus + tax, data = mydata)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--23.3598  -7.3602  -0.6895   6.2918  27.5461 
+-14.2469  -3.0629  -0.9032   1.7415  30.3402 
 
 Coefficients:
              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 32.008407   4.135731   7.739 8.74e-14 ***
-Income       0.123873   0.046848   2.644  0.00852 ** 
-Limit        0.063192   0.001426  44.309  &lt; 2e-16 ***
-Cards        4.596743   0.391004  11.756  &lt; 2e-16 ***
-Age          0.012590   0.030358   0.415  0.67858    
-Education   -0.234910   0.163793  -1.434  0.15232    
-OwnYes       0.220363   1.019729   0.216  0.82902    
-StudentYes  -2.006844   2.805020  -0.715  0.47476    
-MarriedYes   2.382346   1.058422   2.251  0.02495 *  
-RegionSouth -0.309647   1.255101  -0.247  0.80526    
-RegionWest  -2.006170   1.449253  -1.384  0.16707    
-Balance      0.011990   0.005179   2.315  0.02112 *  
+(Intercept) 17.517713   3.974975   4.407 1.28e-05 ***
+lstat       -0.559005   0.048846 -11.444  &lt; 2e-16 ***
+rm           4.625169   0.430651  10.740  &lt; 2e-16 ***
+ptratio     -0.876154   0.125376  -6.988 8.94e-12 ***
+indus        0.056975   0.052699   1.081   0.2802    
+tax         -0.003537   0.002128  -1.662   0.0971 .  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 10.15 on 388 degrees of freedom
-Multiple R-squared:  0.9958,    Adjusted R-squared:  0.9957 
-F-statistic:  8399 on 11 and 388 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 5.225 on 500 degrees of freedom
+Multiple R-squared:  0.6804,    Adjusted R-squared:  0.6772 
+F-statistic: 212.9 on 5 and 500 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 
