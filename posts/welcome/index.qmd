@@ -1,11 +1,11 @@
 ---
-title: "Welcome To My Blog"
+title: "Welcome!"
 author: "Cedric Martinez"
 date: "2023-12-07"
-categories: [R]
+categories: [Python, SQL, R]
 ---
 
-Hi, my name is Cedric Martinez and I am a hard-working data scientist looking to work with data to provide valuable business insight!
+Hi, my name is Cedric Martinez and I am a data scientist looking for opportunities for career advancement working with data to provide business recommendations by leveraging the power of machine learning! I have experience working with Python, SQL, and R.
 
 ![](thumbnail.jpg)
 
